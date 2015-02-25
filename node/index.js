@@ -8,15 +8,16 @@ var obj = {name: 'bean'}
 var intervalId;
 var connectedBean;
 
-
 Bean.discover(function(bean){
   connectedBean = bean;
   process.on('SIGINT', exitHandler.bind(this));
 
   bean.on("accell", function(x, y, z, valid){
     var status = valid ? "valid" : "invalid";
-    obj[Date.toString()] = x + ',' + y + ',' + z;
-    console.log("received " + status + " accell\tx:\t" + x + "\ty:\t" + y + "\tz:\t" + z );
+    var dataname = Date.toString(); 
+    obj[dataname] = x + ',' + y + ',' + z;
+    // console.log("received " + status + " accell\tx:\t" + x + "\ty:\t" + y + "\tz:\t" + z );
+    console.log(dataname);
   });
 
   bean.on("disconnect", function(){
@@ -27,18 +28,24 @@ Bean.discover(function(bean){
 
     var readData = function() {
 
-       /*
-      //set random led colors between 0-255. I find red overpowering so red between 0-64
-      bean.setColor(new Buffer([getRandomInt(0,64),getRandomInt(0,255),getRandomInt(0,255)]),
-        function(){
-          console.log("led color sent");
-      });
-      */
-
       bean.requestAccell(
       function(){
         console.log("request accell sent");
       });
+
+      bean.readBatteryLevel(function(battery){
+          console.log("battery:", battery);
+      });
+
+      bean.readManufacturerName(function(manufacturer){
+          console.log("manufacturer", manufacturer);  
+          obj.nname = manufacturer; 
+      });
+
+      bean.on("serial", function(data, valid){
+          console.log(data.toString());
+      });
+
 
     }
 
