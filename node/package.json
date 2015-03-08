@@ -1,0 +1,10 @@
+{
+  "name": "BeanData",
+  "description": "Bean data grabbing example",
+  "author": "Adam Tindale <adam@adamtindale.com>",
+  "dependencies": {
+    "jsonfile": "2.0.0",
+    "ble-bean": "2.1.0"
+  },
+  "engine": "node >= 0.4.1"
+}
